@@ -1,22 +1,9 @@
-CC		:= gcc
-C_FLAGS := -w
-BIN		:= bin
-SRC		:= src
-INCLUDE	:= include
-LIB		:= lib
+all: compile run
 
-LIBRARIES	:= -lpthread
-
-EXECUTABLE	:= shell
-
-all: $(BIN)/$(EXECUTABLE)
+compile:
+	gcc -I ./include/ -o ./lib/command.o -c ./src/command.c	
+	gcc -I ./include/ -o ./lib/prompt.o -c ./src/prompt.c
+	gcc -I ./include/ -o ./bin/main ./lib/command.o ./lib/prompt.o ./src/main.c
 	
-clean:
-	-$(RM) $(BIN)/$(EXECUTABLE)
-
-run: all
-	./$(BIN)/$(EXECUTABLE)
-
-$(BIN)/$(EXECUTABLE): $(SRC)/*
-	[ -d ./$(BIN) ] || mkdir -p ./$(BIN)
-	$(CC) $(C_FLAGS) -I$(INCLUDE) -L$(LIB) $^ -o $@ $(LIBRARIES)
+run:
+	./bin/main
